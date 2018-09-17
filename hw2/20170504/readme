@@ -1,0 +1,22 @@
+#README
+This document is a brief explanation for HW2 of CS230, System Programming.
+The second homework was about shell programming for system call and linux programming.
+
+#AUTHORS
+Juan Lee, 20170504, School of Computing, KAIST
+
+#COMMAND_LIST
+Belows are the commands which can be handled on my shell.
+	ls
+	mkdir
+	rmdir
+	cd
+	cd ..
+	exit
+Also, if the command doesn't start with ls, mkdir, rmdir, cd, or exit, my shell does same action as system function.
+
+#KNOWN_BUG
+In this assignment, I didn't handle any of options for ls, mkdir, rmdir and cd. 
+
+#REFERENCE
+System Programming HW2 Instructions

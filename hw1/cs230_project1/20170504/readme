@@ -1,0 +1,37 @@
+#README
+This document is a brief explanation for HW1 of CS230, System Programming.
+The first homework was about bit operations for integer multiplication, floating point addition, and floating point multiplcation. The implementations are written in skeleton.c
+
+#AUTHORS
+Juan Lee, 20170504, School of Computing, KAIST
+
+#INTEGER_MULTIPLICATIONS
+Because of Two's Complement, negative and positive forms are different. So, I determined the sign bit first, apply Two's Complement when it is negative, and apply multiplication algorithm described below.
+In multiplication algorithm, I basically add multiplicand for |multiplier| times. -- |x| means the absolute value of x -- It just shifts multiplier and adds multiplicand when the bit of each position is 1.
+
+#FLOAT_ADD
+Addtion of floating point numbers is mantissa addition after exponent fitting. I shifted mantissa which has smaller exponent, and subtract them. Normalizing and determining of sign bit should be followed.
+In this function, I have tried to check my third function with my own test cases. However, it was quite different to IEEE 754 rule. So, for making the result same as the result of C-language, I apply little different rule but very simillar. I just checked not only three bits but the whole remaining bits after LSB.
+-417 + -1.1326451f was an example of this case.
+
+#FLOAT_MULTIPLCATION
+This is simpler than float addition. Simply add two exponent with considering bias, and multiply two mantissas with the first function. Of course, we should consider the overflow.
+In this function, I have tried to check my third function with my own test cases. However, it was quite different to IEEE 754 rule. So, for making the result same as the result of C-language, I apply little different rule but very simillar. I just checked not only three bits but the whole remaining bits after LSB.
+1731986816.000000f * -115124008.00000f was an example of this case.
+
+#ORIGINAL_IEEE754_ROUNDING_RULE_ON_GOOGLE
+Rounding rule was one of the hardest thing to implement this function, I just followed IEEE 754 rounding rules. What I found on Google was that only checkes 3 bits G, R, S which follow after LSB. rounding rule which is "round to nearest and tie to even" is like below:
+G | R | S | code
+1   1   1   round up
+1   1   0   round up
+1   0   1   round up
+1   0   0   tie to even. if LSB of fraction part is 1, round up
+0   x   x   round down; do nothing.
+
+#KNOWN_BUG
+In this assignment, I didn't handle inf, -inf, NaN of the floating number. Also, denomalized floating number cannot be handled.
+IEEE Rule bug described on #FLOAT_MULTIPLICATION is also one of the bugs I think.
+
+#REFERENCE
+System Programming HW1 Instructions
+http://pages.cs.wisc.edu/~markhill/cs354/Fall2008/notes/flpt.apprec.html - rounding rule

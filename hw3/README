@@ -1,0 +1,55 @@
+# README
+FTP (File Transfer Protocol) Service  
+  
+This consists of server.c, client.c, packet.h, and packet.c where packet codes are helper module for network. Please refer to CS230 Lecture Slides for packets.  
+  
+### COMPILE & RUN
+This is how to compile:  
+gcc server.c packet.c -pthread -o server  
+gcc client.c packet.c -o client  
+  
+This is how to run:  
+./server <PORT>  
+./client <ADDRESS> <PORT>  
+  
+### COMMANDS
+There are three commands described below
+
+* LIST - list all files in Client-side save folder
+* UPLOAD <FILE> - upload FILE to server
+* DOWNLOAD <FILE> - download FILE from server
+  
+Note that they are all capital letters.
+
+### PROTOCOLS
+The FTP Services has a protocol of COMMAND(1)-NAME(1024)-SIZE(8)-DATA(n). Firstly, send filename with the length of 1024. Secondly, send size in 8byte type. Thirdly, send data with the length of that I received just before. For example, suppose that I upload a file with filename of 'hello.txt' like below:
+
+Hello, System Programming!
+
+Then, it would be changed into like below:
+
+01010101 01101000 01100101 01101100 
+01101100 01101111 00101110 01110100 
+01111000 01110100 00000000 00000000 
+00000000 00000000 00000000 00000000 
+00000000 00000000 00000000 00000000 
+...
+00000000 00000000 00000000 00000000 
+00000000 00000000 00000000 00000000 
+00000000 00000000 00000000 00011010 
+01001000 01100101 01101100 01101100 
+01101111 00101100 00100000 01010011 
+01111001 01110011 01110100 01100101 
+01101101 00100000 01010000 01110010 
+01101111 01100111 01110010 01100001 
+01101101 01101101 01101001 01101110 
+01100111 00100001 
+
+### KNOWN BUGS
+I sent size data with long variable directly, so it strongly depends on system endians. So, this FTP works only for two same-endian computers.
+
+### AUTHOR & CONTRIBUTORS
+* Juan Lee (juanlee@kaist.ac.kr)
+
+### REFERENCE
+* CS230 Lecture Slides
